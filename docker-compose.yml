@@ -1,0 +1,22 @@
+version: "2"
+services:
+  puma:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: bundle exec puma --config config/puma.rb --environment development
+    volumes:
+      - ./app:/app/app
+      - ./bin:/app/bin
+      - ./config:/app/config
+      - ./config.ru:/app/config.ru
+      - ./db:/app/db
+      - ./Gemfile:/app/Gemfile
+      - ./Gemfile.lock:/app/Gemfile.lock
+      - ./lib:/app/lib
+      - ./public:/app/public
+      - ./Rakefile:/app/Rakefile
+      - ./scripts:/app/scripts
+      - bundle:/bundle
+volumes:
+  bundle:
