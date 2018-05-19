@@ -6,7 +6,7 @@ init:
 
 ## コンテナを立ち上げる
 up:
-	docker-compose up -d
+	docker-compose up -d --build
 
 ps:
 	docker-compose ps
