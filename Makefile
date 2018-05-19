@@ -23,6 +23,12 @@ ps:
 console:
 	$(RUNNER) puma bash
 
+rails/console:
+	$(RUNNER) puma rails c
+
+db/console:
+	$(RUNNER) puma rails db -p
+
 ## DBを初期化(drop, create, migrate)
 db/init:
 	$(RUNNER) puma rails db:drop db:create db:migrate
@@ -34,5 +40,6 @@ db/migrate:
 bundle/install:
 	$(RUNNER) puma bundle install --jobs=4 --path=/bundle
 
+## コンテナ群をvolumeごとdown
 _clean:
 	docker-compose down -v
