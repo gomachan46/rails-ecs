@@ -1,5 +1,6 @@
 include help.mk
 .PHONY: init up ps console db/init db/migrate _clean
+RUNNER := docker-compose run --rm
 
 ## コンテナを初期化して一から作り直す
 init:
@@ -11,21 +12,27 @@ up:
 	docker-compose up -d --build
 	$(MAKE) db/migrate
 
+test:
+	$(RUNNER) puma bundle exec rspec
+
 ## コンテナの状況確認
 ps:
 	docker-compose ps
 
 ## rails動作環境へSSH
 console:
-	docker-compose run puma bash
+	$(RUNNER) puma bash
 
 ## DBを初期化(drop, create, migrate)
 db/init:
-	docker-compose run puma rails db:drop db:create db:migrate
+	$(RUNNER) puma rails db:drop db:create db:migrate
 
 ## migrate状態を最新に
 db/migrate:
-	docker-compose run puma rails db:migrate
+	$(RUNNER) puma rails db:migrate
+
+bundle/install:
+	$(RUNNER) puma bundle install --jobs=4 --path=/bundle
 
 _clean:
 	docker-compose down -v

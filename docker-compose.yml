@@ -23,6 +23,7 @@ services:
       - ./public:/app/public
       - ./Rakefile:/app/Rakefile
       - ./scripts:/app/scripts
+      - ./spec:/app/spec
       - bundle:/bundle
     ports:
       - "33000:3000"
