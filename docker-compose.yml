@@ -1,5 +1,11 @@
 version: "2"
 services:
+  mysql:
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    image: mysql:5.7.22
+    ports:
+      - "33306:3306"
   puma:
     build:
       context: .
@@ -18,5 +24,7 @@ services:
       - ./Rakefile:/app/Rakefile
       - ./scripts:/app/scripts
       - bundle:/bundle
+    ports:
+      - "33000:3000"
 volumes:
   bundle:
