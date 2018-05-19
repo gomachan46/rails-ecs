@@ -7,3 +7,9 @@ init:
 ## コンテナを立ち上げる
 up:
 	docker-compose up -d
+
+ps:
+	docker-compose ps
+
+console:
+	docker-compose run puma bash

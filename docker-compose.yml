@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    command: bundle exec puma --config config/puma.rb --environment development
+    command: echo 'hello' # bundle exec puma --config config/puma.rb --environment development
     volumes:
       - ./app:/app/app
       - ./bin:/app/bin
