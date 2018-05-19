@@ -9,13 +9,13 @@ jobs:
     steps:
       - checkout
       - run:
-        name: setup
-        command: |
-          make init
+          name: setup
+          command: |
+            make init
       - run:
-        name: test
-        command: |
-          make test
+          name: test
+          command: |
+            make test
       - store_test_results:
           path: /tmp/test-results
       - store_artifacts:
