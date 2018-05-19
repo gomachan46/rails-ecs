@@ -5,11 +5,14 @@ RUNNER := docker-compose run --rm
 ## コンテナを初期化して一から作り直す
 init:
 	$(MAKE) _clean
-	$(MAKE) up
+	docker-compose build
+	docker-compose up -d
+	$(MAKE) db/init
 
 ## コンテナを立ち上げる
 up:
-	docker-compose up -d --build
+	docker-compose up -d
+	$(MAKE) bundle/install
 	$(MAKE) db/migrate
 
 test:
