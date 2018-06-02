@@ -1,0 +1,19 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo install started on `date`
+      - sudo apt-get update
+      - sudo apt-get -y install nodejs
+      - sudo apt-get -y install npm
+      - sudo update-alternatives --install /usr/bin/node node /usr/bin/nodejs 10
+      - gem install bundler
+      - bundle install
+  build:
+    commands:
+      - echo Build started on `date`
+      - make test
+  post_build:
+    commands:
+      - echo Build completed on `date`
