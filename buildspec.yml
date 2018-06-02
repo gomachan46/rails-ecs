@@ -1,20 +1,30 @@
 version: 0.2
 
 phases:
-  install:
+  pre_build:
     commands:
-      - make init
-#      - echo install started on `date`
-#      - sudo apt-get update
-#      - sudo apt-get -y install nodejs
-#      - sudo apt-get -y install npm
-#      - sudo update-alternatives --install /usr/bin/node node /usr/bin/nodejs 10
-#      - gem install bundler
-#      - bundle install
+      - echo Logging in to Amazon ECR
+      - aws --version
+      - $(aws ecr get-login --no-include-email --region ${AWS_DEFAULT_REGION})
+      - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - REPOSITORY_RAILS_URI=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/rails-ecs
   build:
     commands:
       - echo Build started on `date`
-      - make test
+      - docker build -t $REPOSITORY_RAILS_URI:latest .
+      - docker tag $REPOSITORY_RAILS_URI:latest $REPOSITORY_RAILS_URI:$IMAGE_TAG
   post_build:
     commands:
       - echo Build completed on `date`
+      - echo Pushing the Docker images...
+      - docker push $REPOSITORY_RAILS_URI:latest
+      - docker push $REPOSITORY_RAILS_URI:$IMAGE_TAG
+      # TODO
+      # - echo DB Migration...
+      # - aws ecs run-task --cluster ecstest --task-definition ecstest-migrate
+      - echo Writing image definitions file...
+      - echo "[" > imagedefinitions.json
+      - echo "{\"name\":\"rails-ecs\",\"imageUri\":\"${REPOSITORY_RAILS_URI}:${IMAGE_TAG}\"}," >> imagedefinitions.json
+      - echo "]" >> imagedefinitions.json
+artifacts:
+    files: imagedefinitions.json
