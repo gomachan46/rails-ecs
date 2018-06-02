@@ -23,8 +23,8 @@ phases:
       # - echo DB Migration...
       # - aws ecs run-task --cluster ecstest --task-definition ecstest-migrate
       - echo Writing image definitions file...
-      - echo "[" > imagedefinitions.json
-      - echo "{\"name\":\"rails-ecs\",\"imageUri\":\"${REPOSITORY_RAILS_URI}:${IMAGE_TAG}\"}," >> imagedefinitions.json
-      - echo "]" >> imagedefinitions.json
+      - echo "[" > rails-ecs.json
+      - echo "{\"name\":\"rails-ecs\",\"imageUri\":\"${REPOSITORY_RAILS_URI}:${IMAGE_TAG}\"}," >> rails-ecs.json
+      - echo "]" >> rails-ecs.json
 artifacts:
-    files: imagedefinitions.json
+    files: rails-ecs.json
