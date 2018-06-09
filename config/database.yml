@@ -49,6 +49,4 @@ test:
 #
 production:
   <<: *default
-  database: rails-ecs_production
-  username: rails-ecs
-  password: <%= ENV['RAILS-ECS_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>
