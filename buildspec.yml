@@ -23,7 +23,7 @@ phases:
       # - echo DB Migration...
       # - aws ecs run-task --cluster ecstest --task-definition ecstest-migrate
       - echo Writing image definitions file...
-      - printf '[{"name":"rails-ecs","imageUri":"%s"}]' ${REPOSITORY_RAILS_URI}:${IMAGE_TAG} > rails-ecs.json
+      - printf '[{"name":"rails-ecs-fargate","imageUri":"%s"}]' ${REPOSITORY_RAILS_URI}:${IMAGE_TAG} > rails-ecs.json
       - cat rails-ecs.json
 artifacts:
     files: rails-ecs.json
